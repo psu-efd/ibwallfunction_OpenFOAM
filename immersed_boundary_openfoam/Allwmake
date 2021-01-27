@@ -1,0 +1,20 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+set -x
+
+wmake ibLibraries/triSurfaceFieldTools
+wmake ibLibraries/immersedBoundary
+wmake ibLibraries/immersedBoundaryTurbulence
+wmake ibLibraries/immersedBoundaryForce
+wmake ibLibraries/immersedBoundarySurfaceToCell
+wmake ibLibraries/immersedBoundaryDynamicMesh
+wmake ibLibraries/ibmFvSolutions
+wmake ibLibraries/ibmFvOptions
+wmake ibLibraries/ibmFvSchemes
+
+wmake ibUtilities/modifyPatches
+
+wmake ibSolvers/ibSimpleFoam
+wmake ibSolvers/ibPimpleFoam
+wmake ibSolvers/ibMorphFoam
+# ----------------------------------------------------------------- end-of-file

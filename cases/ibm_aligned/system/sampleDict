@@ -1,0 +1,901 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.0                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    system;
+    object      sampleDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Set output format : choice of
+//      xmgr
+//      jplot
+//      gnuplot
+//      raw
+setFormat raw;
+
+// Surface output format. Choice of
+//      null        : suppress output
+//      foamFile    : separate points, faces and values file
+//      dx          : DX scalar or vector format
+//      vtk         : VTK ascii format
+//      raw         : x y z value format for use with e.g. gnuplot 'splot'.
+//
+// Note:
+// other formats such as obj, stl, etc can also be written (by proxy)
+// but without any values!
+surfaceFormat vtk;
+
+// interpolationScheme. choice of
+//      cell          : use cell-centre value only; constant over cells (default)
+//      cellPoint     : use cell-centre and vertex values
+//      cellPointFace : use cell-centre, vertex and face values.
+// 1] vertex values determined from neighbouring cell-centre values
+// 2] face values determined using the current face interpolation scheme
+//    for the field (linear, gamma, etc.)
+interpolationScheme cellPoint;
+
+// Fields to sample.
+fields
+(
+    p
+    U
+    k
+    epsilon
+    nut
+);
+
+// Set sampling definition: choice of
+//      uniform             evenly distributed points on line
+//      face                one point per face intersection
+//      midPoint            one point per cell, inbetween two face intersections
+//      midPointAndFace     combination of face and midPoint
+//
+//      curve               specified points, not nessecary on line, uses
+//                          tracking
+//      cloud               specified points, uses findCell
+//
+// axis: how to write point coordinate. Choice of
+// - x/y/z: x/y/z coordinate only
+// - xyz: three columns
+//  (probably does not make sense for anything but raw)
+// - distance: distance from start of sampling line (if uses line) or
+//             distance from first specified sampling point
+//
+// type specific:
+//      uniform, face, midPoint, midPointAndFace : start and end coordinate
+//      uniform: extra number of sampling points
+//      curve, cloud: list of coordinates
+sets
+(
+lineX_0
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.0 0 0.01);
+        end         (0.0 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_2
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.02 0 0.01);
+        end         (0.02 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_4
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.04 0 0.01);
+        end         (0.04 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_6
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.06 0 0.01);
+        end         (0.06 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_8
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.08 0 0.01);
+        end         (0.08 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_10
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.1 0 0.01);
+        end         (0.1 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_12
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.12 0 0.01);
+        end         (0.12 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_14
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.14 0 0.01);
+        end         (0.14 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_16
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.16 0 0.01);
+        end         (0.16 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_18
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.18 0 0.01);
+        end         (0.18 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_20
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.2 0 0.01);
+        end         (0.2 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_22
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.22 0 0.01);
+        end         (0.22 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_24
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.24 0 0.01);
+        end         (0.24 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_26
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.26 0 0.01);
+        end         (0.26 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_28
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.28 0 0.01);
+        end         (0.28 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_30
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.3 0 0.01);
+        end         (0.3 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_32
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.32 0 0.01);
+        end         (0.32 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_34
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.34 0 0.01);
+        end         (0.34 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_36
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.36 0 0.01);
+        end         (0.36 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_38
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.38 0 0.01);
+        end         (0.38 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_40
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.4 0 0.01);
+        end         (0.4 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_42
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.42 0 0.01);
+        end         (0.42 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_44
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.44 0 0.01);
+        end         (0.44 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_46
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.46 0 0.01);
+        end         (0.46 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_48
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.48 0 0.01);
+        end         (0.48 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_50
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.5 0 0.01);
+        end         (0.5 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_52
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.52 0 0.01);
+        end         (0.52 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_54
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.54 0 0.01);
+        end         (0.54 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_56
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.56 0 0.01);
+        end         (0.56 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_57
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.58 0 0.01);
+        end         (0.58 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_60
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.6 0 0.01);
+        end         (0.6 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_62
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.62 0 0.01);
+        end         (0.62 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_64
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.64 0 0.01);
+        end         (0.64 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_66
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.66 0 0.01);
+        end         (0.66 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_68
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.68 0 0.01);
+        end         (0.68 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_70
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.7000000000000001 0 0.01);
+        end         (0.7000000000000001 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_72
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.72 0 0.01);
+        end         (0.72 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_74
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.74 0 0.01);
+        end         (0.74 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_76
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.76 0 0.01);
+        end         (0.76 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_78
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.78 0 0.01);
+        end         (0.78 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_80
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.8 0 0.01);
+        end         (0.8 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_82
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.8200000000000001 0 0.01);
+        end         (0.8200000000000001 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_84
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.84 0 0.01);
+        end         (0.84 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_86
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.86 0 0.01);
+        end         (0.86 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_88
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.88 0 0.01);
+        end         (0.88 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_90
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.9 0 0.01);
+        end         (0.9 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_92
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.92 0 0.01);
+        end         (0.92 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_94
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.9400000000000001 0 0.01);
+        end         (0.9400000000000001 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_96
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.96 0 0.01);
+        end         (0.96 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_98
+    {
+        type        uniform;
+        axis        distance;
+        start       (0.98 0 0.01);
+        end         (0.98 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_100
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.0 0 0.01);
+        end         (1.0 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_102
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.02 0 0.01);
+        end         (1.02 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_104
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.04 0 0.01);
+        end         (1.04 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_106
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.06 0 0.01);
+        end         (1.06 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_108
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.08 0 0.01);
+        end         (1.08 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_110
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.1 0 0.01);
+        end         (1.1 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_112
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.12 0 0.01);
+        end         (1.12 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_114
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.1400000000000001 0 0.01);
+        end         (1.1400000000000001 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_115
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.16 0 0.01);
+        end         (1.16 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_118
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.18 0 0.01);
+        end         (1.18 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_120
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.2 0 0.01);
+        end         (1.2 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_122
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.22 0 0.01);
+        end         (1.22 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_124
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.24 0 0.01);
+        end         (1.24 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_126
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.26 0 0.01);
+        end         (1.26 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_128
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.28 0 0.01);
+        end         (1.28 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_130
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.3 0 0.01);
+        end         (1.3 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_132
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.32 0 0.01);
+        end         (1.32 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_134
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.34 0 0.01);
+        end         (1.34 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_136
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.36 0 0.01);
+        end         (1.36 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_138
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.3800000000000001 0 0.01);
+        end         (1.3800000000000001 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_140
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.4000000000000001 0 0.01);
+        end         (1.4000000000000001 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_142
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.42 0 0.01);
+        end         (1.42 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_144
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.44 0 0.01);
+        end         (1.44 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_146
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.46 0 0.01);
+        end         (1.46 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_148
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.48 0 0.01);
+        end         (1.48 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_150
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.5 0 0.01);
+        end         (1.5 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_152
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.52 0 0.01);
+        end         (1.52 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_154
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.54 0 0.01);
+        end         (1.54 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_156
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.56 0 0.01);
+        end         (1.56 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_158
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.58 0 0.01);
+        end         (1.58 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_160
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.6 0 0.01);
+        end         (1.6 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_162
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.62 0 0.01);
+        end         (1.62 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_164
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.6400000000000001 0 0.01);
+        end         (1.6400000000000001 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_166
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.6600000000000001 0 0.01);
+        end         (1.6600000000000001 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_168
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.68 0 0.01);
+        end         (1.68 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_170
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.7 0 0.01);
+        end         (1.7 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_172
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.72 0 0.01);
+        end         (1.72 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_174
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.74 0 0.01);
+        end         (1.74 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_176
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.76 0 0.01);
+        end         (1.76 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_178
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.78 0 0.01);
+        end         (1.78 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_180
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.8 0 0.01);
+        end         (1.8 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_182
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.82 0 0.01);
+        end         (1.82 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_184
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.84 0 0.01);
+        end         (1.84 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_186
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.86 0 0.01);
+        end         (1.86 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_188
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.8800000000000001 0 0.01);
+        end         (1.8800000000000001 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_190
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.9000000000000001 0 0.01);
+        end         (1.9000000000000001 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_192
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.92 0 0.01);
+        end         (1.92 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_194
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.94 0 0.01);
+        end         (1.94 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_196
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.96 0 0.01);
+        end         (1.96 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_198
+    {
+        type        uniform;
+        axis        distance;
+        start       (1.98 0 0.01);
+        end         (1.98 0.3 0.01);
+        nPoints     1000;
+    }
+    lineX_200
+    {
+        type        uniform;
+        axis        distance;
+        start       (2.0 0 0.01);
+        end         (2.0 0.3 0.01);
+        nPoints     1000;
+    }
+);
+
+// Surface sampling definition: choice of
+//      plane : values on plane defined by point, normal.
+//      patch : values on patch.
+//
+// 1] patches are not triangulated by default
+// 2] planes are always triangulated
+// 3] iso-surfaces are always triangulated
+surfaces
+(
+);
+
+
+// *********************************************************************** //

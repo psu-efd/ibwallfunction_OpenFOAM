@@ -1,0 +1,6 @@
+The "LUinvert" files provide LU-invert function to invert a square matrix.
+
+The official distribution of OF does not directly contain this function. In my implementation of IBM, several places need this function. 
+
+Xiaofeng Liu
+Penn State, Spring 2014

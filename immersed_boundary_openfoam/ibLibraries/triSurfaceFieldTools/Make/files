@@ -1,0 +1,6 @@
+triSurfaceFieldToTecplot/triSurfaceFieldToTecplot.C
+
+
+
+
+LIB = $(FOAM_USER_LIBBIN)/libtriSurfaceFieldTools

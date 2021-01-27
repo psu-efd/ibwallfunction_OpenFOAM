@@ -1,0 +1,123 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1;
+
+xa -0;
+xb 1.6;
+ya -0.45;
+yb 0.45;
+za -0.1;
+zb 0.536;
+
+un 0.02;
+
+nx #calc "std::floor(($xb - $xa) / $un)";//120
+ny #calc "std::floor(($yb - $ya) / $un)";//95
+nz #calc "std::floor(($zb - $za) / $un)";//24
+
+
+vertices
+(
+    ($xa $ya $za) //0
+    ($xb $ya $za) //1
+    ($xb $yb $za) //2
+    ($xa $yb $za) //3
+    ($xa $ya $zb) //4
+    ($xb $ya $zb) //5
+    ($xb $yb $zb) //6
+    ($xa $yb $zb) //7
+);
+
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) ($nx $ny $nz) simpleGrading (1 1 1)
+//    hex (0 1 2 3 4 5 6 7) (100 25 33) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    top
+    {
+        type symmetryPlane;
+        faces
+        (
+            (4 5 6 7)
+        );
+    }
+    bottom
+    {
+        type wall;
+        faces
+        (
+            (0 3 2 1)
+        );
+    }
+    sideWall1
+    {
+        type symmetryPlane;
+        faces
+        (
+            (0 1 5 4)
+        );
+    }
+    sideWall2
+    {
+        type symmetryPlane;
+        faces
+        (
+            (3 7 6 2)
+        );
+    }
+    inlet
+    {
+        type            cyclic;
+        inGroups        1(cyclic);
+        neighbourPatch  outlet;
+        matchTolerance  0.001;
+        transform       translational;
+        separationVector (1.6 0 0);
+        faces
+        (
+            (0 4 7 3)
+        );
+    }
+    outlet
+    {
+        type            cyclic;
+        inGroups        1(cyclic);
+        neighbourPatch  inlet;
+        matchTolerance  0.001;
+        transform       translational;
+        separationVector (-1.6 0 0);
+        faces
+        (
+            (1 2 6 5)
+        );
+    }
+
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //

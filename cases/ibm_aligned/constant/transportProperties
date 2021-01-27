@@ -1,0 +1,59 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.7.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      transportProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+transportModel  Newtonian;
+
+nu              nu [ 0 2 -1 0 0 0 0 ] 1.5e-05;
+
+
+//A switch for whether solve sediment transport:
+calculateSed true;
+//calculateSed false;
+
+
+//sedBC "vanRijn1984PickupFunction";
+sedBC "IgnoreRefHeight";
+//sedBC "DirichletVanRijn1984PickupFunction";
+//sedBC "ExtrapolateToWall";
+//extrapolationOption linearization; //or exponential
+
+//If the option ExtrapolateToWall is chosen, the user
+//needs to specify the scheme of extrapolation:
+//    linearization or exponential.
+//linearization is more compatible with the low order of FVM in OF (usually
+//first or second order at most). exponential is not compatilbe with low
+//order FVM. It should be used for schemes such as "exact" scheme.
+
+VsModel    constant;
+
+CrossPowerLawCoeffs
+{
+    nu0             nu0 [ 0 2 -1 0 0 0 0 ] 1e-06;
+    nuInf           nuInf [ 0 2 -1 0 0 0 0 ] 1e-06;
+    m               m [ 0 0 1 0 0 0 0 ] 1;
+    n               n [ 0 0 0 0 0 0 0 ] 1;
+}
+
+BirdCarreauCoeffs
+{
+    nu0             nu0 [ 0 2 -1 0 0 0 0 ] 1e-06;
+    nuInf           nuInf [ 0 2 -1 0 0 0 0 ] 1e-06;
+    k               k [ 0 0 1 0 0 0 0 ] 0;
+    n               n [ 0 0 0 0 0 0 0 ] 1;
+}
+
+// ************************************************************************* //

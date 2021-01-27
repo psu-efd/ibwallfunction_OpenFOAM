@@ -1,0 +1,5 @@
+sources/ibMeanVelocityForce/ibMeanVelocityForce.C
+sources/ibMeanVelocityForce/ibMeanVelocityForceIO.C
+
+
+LIB = $(FOAM_LIBBIN)/libNewFvOptions

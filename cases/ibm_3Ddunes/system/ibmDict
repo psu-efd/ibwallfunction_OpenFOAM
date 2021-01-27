@@ -1,0 +1,141 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.x                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      ibmDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+//Dictionary for Immersed Boundary Method
+
+//minimum number of surrounding cells of an image point (for interpolation)
+minSurroundCells 3;
+
+//use all the cells inside search radius for image point interpolation
+//or just use the minSurroundCells with closest distance (default)
+iptsUseClosestCells true;
+
+//How many times the size of ghost cell size the searching radius should be?
+//i.e., search radius = nTimesCellSize_for_search * ghost_cell_size
+nTimesCellSize_for_search 1;
+
+ibmRefineMeshInsideLayers 4;
+ibmRefineMeshOutsideLayers 4;
+
+outsidePoints ((0.5 0 0.25));
+
+sedimentPatches (cylinderIB);
+
+interpScheme Shepard;
+//interpScheme RBF;
+//interpScheme Franke;
+
+interpolation
+{
+    RBF  IMQB;
+    polynomials false;
+
+    W2Coeffs
+    {
+        radius     1.0;
+    }
+    // Thin-plate spline
+    TPSCoeffs
+    {
+        radius     5.0;
+    }
+    // Gaussian
+    GaussCoeffs
+    {
+        radius     1;
+    }
+    // Inverse multiquadric
+    IMQBCoeffs
+    {
+        radius     0.01;
+    }
+    // Multiquadric
+    MQBCoeffs
+    {
+        radius     0.005;
+    }
+}
+
+//For iso_surface
+//isoField cellIbMask;
+//isoValue 0.5;
+
+//IB interpolation stencil
+angleFactor 0.0;
+radiusFactor 3.75;
+maxCellCellRows 3.5;
+distFactor 1.5;
+
+
+// **********sediment transport related**********
+calculateSed false;
+
+calculateMorph on;
+
+MorphodynamicsModel "Liu_2008";
+//MorphodynamicsModel "Khosronejad_2011";
+
+//gravity
+gDirection (0 0 -9.81);
+
+
+//fluid properties
+rhow    rhow [ 1 -3 0 0 0 0 0 ] 1000;
+rhos    rhos [ 1 -3 0 0 0 0 0 ] 2690;
+
+//Specify a list of sediment patch names
+sedimentPatches
+(
+   bed
+);
+
+//sediment properties
+grainDiameter 0.00002;
+specificGravity 2.69;
+V0     V0 [ 0 1 -1 0 0 0 0 ] (0 -0.015 0);
+
+//bedload transport
+shieldsNumberC0 0.055;
+staticFrictionCoefficient 0.7; //35 degrees
+
+//suspended transport
+//VsModel    constant;
+VsModel    simple;
+
+sedBC "ZysermanFredsoe1994";
+//sedBC "vanRijn1984PickupFunction";
+//sedBC "IgnoreRefHeight";
+//sedBC "DirichletVanRijn1984PickupFunction";
+//sedBC "ExtrapolateToWall";
+
+
+//unphysically fastern the simulation
+deformScale 5;  //used in test to scale the deformation of the bed
+
+//update every n timesteps
+updateTimeStep 10;
+
+//maximum dt for morphodynamics
+maxDt -0.02;
+
+correctYPlus true;
+
+NeumannConditionHighOrder true;
+
+writeStlEachTimeStep false;
+
+pEqnBoundaryManipulate false;
+// ************************************************************************* //

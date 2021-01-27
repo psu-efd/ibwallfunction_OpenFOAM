@@ -1,0 +1,68 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.0                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+#include        "include/constantValues"
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (68.6 0 0);
+
+boundaryField
+{
+    wallIB
+    {
+        type immersedBoundaryVelocityWallFunction;
+        patchType immersedBoundary;
+
+        refValue uniform (0 0 0);
+        refGradient  uniform (0 0 0);
+        fixesValue yes;
+
+        setDeadCellValue   yes;
+        deadCellValue      (0 0 0);
+
+        value uniform (0 0 0);
+    }
+    upper 
+    {
+        type slip;
+    }
+    lower
+    {
+        type fixedValue;
+        value uniform (0 0 0);
+    }
+    left 
+    {
+        type            fixedValue;
+        value uniform (68.6 0 0);
+    }
+    right 
+    {
+        type            zeroGradient;
+    }
+    front
+    {
+        type            $type1;
+    }
+    back
+    {
+        type            $type1;
+    }
+
+}
+
+
+// ************************************************************************* //

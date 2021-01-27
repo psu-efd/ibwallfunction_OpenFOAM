@@ -1,0 +1,24 @@
+sinclude $(GENERAL_RULES)/mplib$(WM_MPLIB)
+sinclude $(RULES)/mplib$(WM_MPLIB)
+
+EXE_INC = \
+    $(PFLAGS) $(PINC) \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/triSurface/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/surfMesh/lnInclude \
+    -I$(LIB_SRC)/sampling/lnInclude \
+    -I$(LIB_SRC)/dynamicMesh/lnInclude \
+    -I$(LIB_SRC)/transportModels \
+    -I../triSurfaceFieldTools/lnInclude \
+    -I./foamInclude \
+    -I./include
+
+EXE_LIBS = \
+    $(PLIBS) \
+    -lfiniteVolume \
+    -lmeshTools \
+    -lsurfMesh \
+    -L$(FOAM_USER_LIBBIN) -ltriSurfaceFieldTools \
+    -lsampling \
+    -ldynamicMesh

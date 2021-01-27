@@ -1,0 +1,15 @@
+#!/bin/sh
+
+currDir=`pwd`
+application=`basename $currDir`
+keepCases="arrestedfront "
+#keepCases="channel2D"
+
+tutorialPath=`dirname $0`/..
+. $WM_PROJECT_DIR/bin/tools/CleanFunctions 
+
+for case in $keepCases
+do
+    cleanTimeDirectories $case
+done
+

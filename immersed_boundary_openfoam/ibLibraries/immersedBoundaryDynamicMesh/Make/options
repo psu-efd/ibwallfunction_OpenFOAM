@@ -1,0 +1,19 @@
+EXE_INC = \
+    $(PFLAGS) $(PINC) \
+    -I../immersedBoundary/lnInclude \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/surfMesh/lnInclude \
+    -I$(LIB_SRC)/sampling/lnInclude \
+    -I$(LIB_SRC)/dynamicFvMesh/lnInclude \
+    -I$(LIB_SRC)/triSurface/lnInclude \
+
+LIB_LIBS = \
+    -lfiniteVolume \
+    -lmeshTools \
+    -lsurfMesh \
+    -lsampling \
+    -ldynamicMesh \
+    -ldynamicFvMesh \
+    -L$(FOAM_USER_LIBBIN) -limmersedBoundary
+

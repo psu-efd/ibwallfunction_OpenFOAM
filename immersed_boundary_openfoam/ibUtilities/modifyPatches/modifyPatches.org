@@ -1,0 +1,88 @@
+Contrib modifyPatches
+
+* Valid versions: 
+   OpenFOAM-2.1.x
+
+* Download
+
+- For OpenFOAM-2.1.x: modifyPatches.tar.gz
+  
+* Purpose
+This utility is developed to manipulate the 
+"constant/polyMesh/boundary" file automatically. 
+This is useful when using utilities like /splitMesh/ or 
+/splitMeshWithSets/ . It is also useful for importing 
+mesh from other software (e.g. Gmsh). The utility can:
+   - Change the type of a non-null patch (of size 
+     greater than zero) to: empty, wall, wedge, symmetry, 
+     cyclic or processor
+   - Remove a given null patch
+   - Create a null patch of a given name at the end of the 
+     "constant/polyMesh/boundary" file 
+
+* Use
+The help message =modifyPatches -help= reads:
+
+Usage: =modifyPatches [OPTIONS]=
+
+|------------------------+------------------------|
+| -case <dir>            | specify alternate case |
+|                        | directory, default     |
+|                        | is the cwd             |
+| -cyclic <patchName>    | change type of         |
+|                        | patch to cyclic        |
+| -empty <patchName>     | change type of         |
+|                        | patch to empty         |
+| -noFunctionObjects     | do not execute         |
+|                        | functionObjects        |
+| -null <patchName>      | creates a new          |
+|                        | patch of zero size     |
+| -processor <patchName> | change type of         |
+|                        | patch to processor     |
+| -remove <patchName>    | removes a zero         |
+|                        | size patch             |
+| -symmetry <patchName>  | change type of         |
+|                        | patch to symmetry      |
+| -wall <patchName>      | change type of         |
+|                        | patch to wall          |
+| -wedge <patchName>     | change type of         |
+|                        | patch to wedge         |
+| -srcDoc                | display source code    |
+|                        | in browser             |
+| -doc                   | display application    |
+|                        | documentation in       |
+|                        | browser                |
+| -help                  | print the usage        |
+|------------------------+------------------------|
+
+*Description*: modifyPatches is an application 
+developed by Hisham El Safti 
+hsafti@gmial.com in January 2013
+
+*Purpose*: Manipulates the constant/polyMesh/boundary 
+file to modify patches 
+from patch type to wall, empty, wedge, cyclic,
+symmetryPlane or processor. 
+This is helpful to use with /gmshToFoam/. 
+The utility allows addition and 
+removal of null patches for use with /splitMesh/.
+
+*Examples of use*
+
+#+BEGIN_SRC <sh> 
+  modifyPatches -empty frontAndBack 
+  modifyPatches -null Master
+#+END_SRC
+
+* Notes
+   - The "constant/polyMesh/boundary" file is overwritten
+   - The application can read one value for each option (for 
+     two empty patches use 
+     the utility twice)
+   - The processor patch is set to 0 processor and 1 neighbour
+     processor by default
+   - The cyclic patch does not add a neighbourPatch keyword 
+
+* History
+   - First version added for OpenFOAM-2.1.x -- El Safti 
+     (talk) 08:17, 11 January 2013 (CET) 

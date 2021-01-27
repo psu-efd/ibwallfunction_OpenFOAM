@@ -1,0 +1,39 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.7.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      cellSetDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+   {
+        name c;
+        type    cellSet;
+        action new;
+
+        // Select based on immersed boundary surface
+        source immersedBoundarySurfaceToCell;
+        sourceInfo
+        {
+            file            "./constant/triSurface/IB_bed.stl";
+            outsidePoints   ((0. 0. 0.3));    // definition of outside
+            ibmRefineMeshInsideLayers 1;
+            ibmRefineMeshOutsideLayers 6;
+        }
+    }
+
+);
+
+
+// ************************************************************************* //

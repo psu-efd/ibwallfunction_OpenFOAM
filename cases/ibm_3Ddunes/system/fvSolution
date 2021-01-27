@@ -1,0 +1,111 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.7.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+
+    p
+    {
+     	solver           GAMG;
+        tolerance        1e-7;
+        relTol           0;
+        smoother         GaussSeidel;
+        nPreSweeps	 0;
+        nPostSweeps	 2;
+        cacheAgglomeration on;
+        agglomerator     faceAreaPair;
+        nCellsInCoarsestLevel 10;
+        mergeLevels	 1;
+    }
+
+/*
+     p
+    {
+        solver          PCG;
+        preconditioner  DIC;
+//        smoother        DICGaussSeidel;
+//        preconditioner  none;
+        minIter          1;
+        maxIter          1000;
+        tolerance        1e-07;
+        relTol           0.01;
+
+    }
+
+*/
+
+    "(U|k|omega|epsilon)"
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+//     	solver          PBiCGStab;
+     	//solver          BICCG;
+//        smoother        DIC;
+//        preconditioner  DILU;
+//        preconditioner  none;
+        minIter          1;
+        maxIter          1000;
+        tolerance        1e-08;
+        relTol           0;
+    }
+
+}
+
+PIMPLE
+{
+    nOuterCorrectors 1;
+    nCorrectors     3;
+    nNonOrthogonalCorrectors 0;
+//    pRefCell        0;
+//    pRefValue       0;
+    pRefPoint      (0.95 0 0);
+    pRefValue      0;
+}
+
+
+PISO
+{
+    nCorrectors     2;
+    nNonOrthogonalCorrectors 0;
+    pRefPoint      (0.95 0 0);
+//    pRefCell        0;
+    pRefValue       0;
+}
+
+SIMPLE
+{
+    consistent      no;
+
+    nNonOrthogonalCorrectors 2;
+   // pRefCell 0;
+    pRefPoint (0.1 0 0);
+    pRefValue 0;
+
+}
+
+relaxationFactors
+{
+    equations
+    {
+        "p.*"           0.2;
+        "U.*"           0.4;
+        "k.*"           0.4;
+        "epsilon.*"     0.4;
+    }
+}
+
+// ************************************************************************* //

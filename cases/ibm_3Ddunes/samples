@@ -1,0 +1,6 @@
+sample -dict system/sampleDict_y_-0.225
+sample -dict system/sampleDict_y_0.225
+sample -dict system/sampleDict_y_0.45
+sample -dict system/sampleDict_y_-0.45
+sample -dict system/sampleDict_y_0
+sample -dict system/sampleDict

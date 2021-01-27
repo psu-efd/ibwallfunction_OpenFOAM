@@ -1,0 +1,96 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.x                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      ibmDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+//Dictionary for Immersed Boundary Method
+
+//minimum number of surrounding cells of an image point (for interpolation)
+minSurroundCells 3;
+
+//use all the cells inside search radius for image point interpolation
+//or just use the minSurroundCells with closest distance (default)
+iptsUseClosestCells true;
+
+//How many times the size of ghost cell size the searching radius should be?
+//i.e., search radius = nTimesCellSize_for_search * ghost_cell_size
+nTimesCellSize_for_search 1;
+
+ibmRefineMeshInsideLayers 4;
+ibmRefineMeshOutsideLayers 4;
+
+outsidePoints ((0.5 0.5 0));
+
+sedimentPatches (bed);
+
+interpScheme Shepard;
+//interpScheme RBF;
+//interpScheme Franke;
+
+interpolation
+{
+    RBF  IMQB;
+    polynomials false;
+
+    W2Coeffs
+    {
+        radius     1.0;
+    }
+    // Thin-plate spline
+    TPSCoeffs
+    {
+        radius     5.0;
+    }
+    // Gaussian
+    GaussCoeffs
+    {
+        radius     1;
+    }
+    // Inverse multiquadric
+    IMQBCoeffs
+    {
+        radius     0.01;
+    }
+    // Multiquadric
+    MQBCoeffs
+    {
+        radius     0.005;
+    }
+}
+
+//For iso_surface
+isoField cellIbMask;
+isoValue 0.5;
+
+interpolate true;
+
+gDirection (0 0 -9.81);
+
+grainDiameter 0.00048;
+
+rho 1000;
+
+specificGravity 1.65;
+
+deformScale 1;  //used in test to scale the deformation of the bed
+staticFrictionCoefficient 0.63;
+
+updateSTL false;
+writeSTL true;
+angleFactor 0;
+radiusFactor 3.5;
+maxCellCellRows 4;
+distFactor 2;
+
+// ************************************************************************* //

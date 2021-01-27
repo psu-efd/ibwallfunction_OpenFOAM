@@ -1,0 +1,253 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | foam-extend: Open Source CFD
+   \\    /   O peration     | Version:     4.0
+    \\  /    A nd           | Web:         http://www.foam-extend.org
+     \\/     M anipulation  | For copyright notice see file Copyright
+-------------------------------------------------------------------------------
+License
+    This file is part of foam-extend.
+
+    foam-extend is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation, either version 3 of the License, or (at your
+    option) any later version.
+
+    foam-extend is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with foam-extend.  If not, see <http://www.gnu.org/licenses/>.
+
+\*---------------------------------------------------------------------------*/
+
+#include "immersedBoundaryFvPatch.H"
+#include "fvMesh.H"
+#include "volFields.H"
+
+// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
+
+void Foam::immersedBoundaryFvPatch::makeIbSamplingWeights() const
+{
+    if (debug)
+    {
+        Info<< "immersedBoundaryFvPatch::makeIbSamplingWeights() : "
+            << "making sampling point weights"
+            << endl;
+    }
+
+    // It is an error to attempt to recalculate
+    // if the pointer is already set
+    if (ibSamplingWeightsPtr_ || ibSamplingProcWeightsPtr_)
+    {
+        FatalErrorIn("void immersedBoundaryFvPatch::makeIbSamplingWeights()")
+            << "sampling point weights already exist"
+            << abort(FatalError);
+    }
+
+    // Get addressing
+    const labelList& ibc = ibCells();
+    const labelListList& ibcc = ibCellCells();
+    const List<List<labelPair> >& ibcProcC = ibCellProcCells();
+
+	scalarField nibcc(ibcc.size());
+	scalarField nibcc1(ibcc.size());
+	forAll(ibcc,I)
+	{
+		scalar n1(ibcc[I].size()+ibcProcC[I].size());
+		scalar n2(ibcProcC[I].size());
+
+		nibcc[I]=n1;
+		nibcc1[I]=n2;
+	}
+ 
+	Info<<"Num. of stencil cells for each IB cell"<<endl;
+	Info<<"Min Max Average"<<endl;
+	Info<<gMin(nibcc)<<" "<<gMax(nibcc)<<" "<<gAverage(nibcc)<<endl;
+	
+	if (Pstream::parRun())//Start of mpi run
+	{
+		Info<<"Num. of proc stencil cells for each IB cell"<<endl;
+		Info<<"Min Max Average"<<endl;
+		Info<<gMin(nibcc1)<<" "<<gMax(nibcc1)<<" "<<gAverage(nibcc1)<<endl;
+	}
+
+    // Initialise the weights
+    ibSamplingWeightsPtr_ = new scalarListList(ibc.size());
+    scalarListList& cellWeights = *ibSamplingWeightsPtr_;
+
+    forAll (cellWeights, cellI)
+    {
+        cellWeights[cellI].setSize(ibcc[cellI].size(), 0);
+    }
+
+    ibSamplingProcWeightsPtr_ = new scalarListList(ibc.size());
+    scalarListList& cellProcWeights = *ibSamplingProcWeightsPtr_;
+
+    forAll (cellProcWeights, cellI)
+    {
+        cellProcWeights[cellI].setSize(ibcProcC[cellI].size(), 0);
+    }
+
+    // Get sampling point locations
+    const vectorField& samplingPoints = ibSamplingPoints();
+
+    IOdictionary ibmDict_
+        (
+            IOobject
+            (
+                "ibmDict",
+                mesh_.time().system(),
+                mesh_,
+                IOobject::MUST_READ_IF_MODIFIED,
+                IOobject::NO_WRITE
+            )
+        );
+
+	bool high_order_ =ibmDict_.lookupOrDefault("NeumannConditionHighOrder",true);
+
+	scalarField gammaIn = gammaExt().internalField();
+
+	if(high_order_)
+	{
+    	gammaIn = gamma().internalField();
+	}
+
+    const vectorField& CIn = mesh_.C().internalField();
+
+    const scalarListList& gammaProc = ibProcGamma();
+    const vectorListList& CProc = ibProcCentres();
+
+    // Go through all cellCells and calculate inverse distance for
+    // all live points
+    forAll (samplingPoints, cellI)
+    {
+        const vector& curP = samplingPoints[cellI];
+
+        scalar sumW = 0;
+
+        // Local weights
+        scalarList& curCW = cellWeights[cellI];
+
+        const labelList& curCells = ibcc[cellI];
+        //if(ibc[cellI]==254180){Info<<curCW<<endl;}
+        //scalar SSS=0;
+        forAll (curCells, ccI)
+        {
+            // Only pick live cells
+            if (gammaIn[curCells[ccI]] > SMALL)
+            {
+                curCW[ccI] = 1/mag(CIn[curCells[ccI]] - curP);
+
+                sumW += curCW[ccI];
+				//SSS++;
+            }
+            else
+            {
+                curCW[ccI] = 0;
+            }
+        }
+
+        //Info<<cellI<<" "<<SSS<<" "<<ibc[cellI]<<" "<<curCells.size()<<" "<<curP<<endl;
+        // Processor weights
+        const List<labelPair>& interpProcCells = ibcProcC[cellI];
+
+        scalarList& curProcCW = cellProcWeights[cellI];
+
+        forAll (interpProcCells, cProcI)
+        {
+            if
+            (
+                gammaProc
+                [
+                    interpProcCells[cProcI].first()
+                ]
+                [
+                    interpProcCells[cProcI].second()
+                ] > SMALL
+            )
+            {
+                curProcCW[cProcI] =
+                    1/mag
+                    (
+                        CProc
+                        [
+                            interpProcCells[cProcI].first()
+                        ]
+                        [
+                            interpProcCells[cProcI].second()
+                        ] - curP
+                    );
+//Pout<<cellI<<" "<<cProcI<<" "<<curProcCW[cProcI]<<endl;
+                sumW += curProcCW[cProcI];
+            }
+            else
+            {
+                curProcCW[cProcI] = 0;
+            }
+        }
+
+        // Divide through by the sum
+        if (sumW < SMALL)
+        {
+            InfoIn
+            (
+                "void immersedBoundaryFvPatch::makeIbSamplingWeights()"
+            )   << "Insufficient live neighbourhood for IB cell "
+                << ibc[cellI] << "." << nl
+                << "Please adjust radiusFactor, angleFactor or "
+                << "immersedBoundaryMaxCellCellRows "
+                << "in immersedBoundaryFvPatch."
+                << endl;
+
+            // Reset sum and weights and use all points
+             sumW = 0;
+             curCW = 0;
+
+             forAll (curCells, ccI)
+             {
+                 // Use all cells
+                 curCW[ccI] = 1/mag(CIn[curCells[ccI]] - curP);
+                 sumW += curCW[ccI];
+             }
+        }
+
+        forAll (curCells, ccI)
+        {
+            curCW[ccI] /= sumW;
+        }
+
+        forAll (curProcCW, cProcI)
+        {
+            curProcCW[cProcI] /= sumW;
+        }
+    }
+}
+
+
+const Foam::scalarListList&
+Foam::immersedBoundaryFvPatch::ibSamplingWeights() const
+{
+    if (!ibSamplingWeightsPtr_)
+    {
+        makeIbSamplingWeights();
+    }
+    return *ibSamplingWeightsPtr_;
+}
+
+
+const Foam::scalarListList&
+Foam::immersedBoundaryFvPatch::ibSamplingProcWeights() const
+{
+    if (!ibSamplingProcWeightsPtr_)
+    {
+        makeIbSamplingWeights();
+    }
+
+    return *ibSamplingProcWeightsPtr_;
+}
+
+
+// ************************************************************************* //

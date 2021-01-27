@@ -1,0 +1,6 @@
+itoa.C
+
+immersedBoundaryForces.C
+immersedBoundaryForcesFunctionObject.C
+
+LIB = $(FOAM_USER_LIBBIN)/libimmersedBoundaryForceFunctionObject

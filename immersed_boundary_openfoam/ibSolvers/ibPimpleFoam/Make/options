@@ -1,0 +1,33 @@
+EXE_INC = \
+    -I../../ibLibraries/triSurfaceFieldTools/lnInclude \
+    -I../../ibLibraries/immersedBoundary/lnInclude \
+    -I../../ibLibraries/immersedBoundaryTurbulence/lnInclude \
+    -I$(LIB_SRC)/TurbulenceModels/turbulenceModels/lnInclude \
+    -I$(LIB_SRC)/TurbulenceModels/incompressible/lnInclude \
+    -I$(LIB_SRC)/transportModels \
+    -I$(LIB_SRC)/transportModels/incompressible/singlePhaseTransportModel \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/dynamicMesh/lnInclude \
+    -I$(LIB_SRC)/surfMesh/lnInclude \
+    -I$(LIB_SRC)/postProcessing/functionObjects/forces/lnInclude \
+    -I$(LIB_SRC)/fileFormats/lnInclude \
+    -I$(LIB_SRC)/triSurface/lnInclude \
+    -I$(LIB_SRC)/fvOptions/lnInclude \
+    -I$(LIB_SRC)/sampling/lnInclude \
+    -I$(LIB_SRC)/finiteVolume/lnInclude
+
+EXE_LIBS = \
+    -lincompressibleTurbulenceModels \
+    -lincompressibleTransportModels \
+    -lfiniteVolume \
+    -lfileFormats \
+    -lmeshTools \
+    -lsurfMesh \
+    -lfvOptions \
+    -ldynamicMesh \
+    -lsampling \
+    -ltriSurface \
+    -L$(FOAM_USER_LIBBIN) -limmersedBoundary \
+    -L$(FOAM_USER_LIBBIN) -limmersedBoundaryTurbulence \
+    -L$(FOAM_USER_LIBBIN) -ltriSurfaceFieldTools
+

@@ -1,0 +1,17 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+set -x
+
+wclean ibLibraries/triSurfaceFieldTools
+wclean ibLibraries/immersedBoundary
+wclean ibLibraries/immersedBoundaryTurbulence
+wclean ibLibraries/immersedBoundaryForce
+wclean ibLibraries/immersedBoundarySurfaceToCell
+wclean ibLibraries/ibmFvOptions
+
+wclean ibUtilities/modifyPatches
+
+wclean ibSolvers/ibSimpleFoam
+wclean ibSolvers/ibPimpleFoam
+wclean ibSolvers/ibMorphFoam
+# ----------------------------------------------------------------- end-of-file
