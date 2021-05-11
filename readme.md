@@ -10,6 +10,11 @@ Y. Xu and X. Liu (2021). An immersed boundary method with y+-adaptation wall fun
 ## Acknowledgements ##
 This code is develped with the supported from the Strategic Environmental Research and Development Program (SERDP, Award Number W74RDV70063408) and U.S. Bureau of Reclamation (Award Number R14AC00015 and R17AC00025).
 
+## Disclaimer ##
+This offering is not approved or endorsed by OpenCFD Limited, producer and distributor of the OpenFOAM software via <www.openfoam.com>, and owner of the OPENFOAM&reg;  and OpenCFD&reg; trade marks.
+
+OPENFOAM&reg; is a registered trade mark of OpenCFD Limited, producer and distributor of the OpenFOAM software via <www.openfoam.com>.
+
 ## Authors and contributors: ##
 Xiaofeng Liu, Ph.D., P.E.  
 Associate Professor  
